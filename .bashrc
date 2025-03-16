@@ -13,42 +13,37 @@ alias ls='ls --color=auto -l'
 alias la='ls -A'
 alias grep='grep --color=auto'
 alias open='xdg-open'
+alias nv='nvim'
 
-nv() {
-  if [ -d "$1" ]; then
-    while true; do
-      echo "1. fzf"
-      echo "2. Netrw"
-      echo "3. Exit"
-      read -r option
-      case "$option" in
-        1)
-          local file=$(fd -I -H . "$1" | fzf --preview 'cat {}')
-          if [ -n "$file" ]; then
-            command nvim "$file"
-          fi
-          break
-          ;;
-        2)
-          command nvim "$1"
-          break
-          ;;
-        3)
-          echo "Exit."
-          break
-          ;;
-        *)
-          echo "Invalid option."
-          ;;
-      esac
-    done
-  else
-    command nvim "$@"
-  fi
+cd() {
+    if [ -z "$1" ]; then
+        command cd ~
+    else
+        command cd "$@"
+    fi
+}
+
+fuzzy_cd() {
+    local dir=$(fd -H -t d . ~ | fzf)
+    if [ -n "$dir" ]; then
+        command cd "$dir"
+    fi
 }
 
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ on \1/'
 }
 
-PS1=" \[\e[1;32m\]\w\[\e[0m\]\[\033[33m\]\$(parse_git_branch)\[\033[00m\] \[\e[1;34m\]\t\[\e[0m\]\n $ "
+git_prompt() {
+  if git rev-parse --is-inside-work-tree &> /dev/null; then
+    if git diff --quiet && git diff --cached --quiet; then
+      echo -e "\033[0;32m✔\033[0m"
+    else
+      echo -e "\033[0;31m✘\033[0m"
+    fi
+  fi
+}
+
+PS1=" \[\e[1;32m\]\w\[\e[0m\]\[\033[33m\]\$(parse_git_branch)\[\033[00m\] \$(git_prompt) \[\e[1;34m\]\t\[\e[0m\]\n $ "
+
+bind '"\C-x\C-d":"fuzzy_cd\n"'
