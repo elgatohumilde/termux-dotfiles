@@ -16,7 +16,7 @@
 (vim.keymap.set :n :<leader>sh "<cmd>Pick cli command={\"fd\" \"-H\" \"-I\"}<CR>" {:desc "[S]earch [H]idden"})
 (vim.keymap.set :n :<leader>sk "<cmd>Pick keymaps<CR>" {:desc "[S]earch [K]eymaps"})
 (vim.keymap.set :n :<leader>sn "<cmd>Pick cli command={\"fd\" \"-H\" \"-I\" \".\" \"/data/data/com.termux/files/home/.config/nvim/\"}<CR>" {:desc "[S]earch [N]eovim files"})
-(vim.keymap.set :n :<leader>sc "<cmd>Pick cli command={\"fd\" \"-H\" \"-I\" \".\" \"/data/data/com.termux/files/home/.termux-dotfiles/\"}<CR>" {:desc "[S]earch [C]onfiguration"})
+(vim.keymap.set :n :<leader>sc "<cmd>Pick cli command={\"fd\" \"-H\" \"-I\" \".\" \"/data/data/com.termux/files/home/.dotfiles/\"}<CR>" {:desc "[S]earch [C]onfiguration"})
 (vim.keymap.set :n :<leader>/ "<cmd>Pick buf_lines<CR>" {:desc "[/] Search current buffer"})
 (vim.keymap.set :n :<leader><leader> "<cmd>Pick buffers<CR>" {:desc "[ ] Search existing buffers"})
 
